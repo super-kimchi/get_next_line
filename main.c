@@ -1,44 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/07 22:46:37 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/14 15:33:44 by kyungkim         ###   ########.fr       */
+/*   Created: 2025/01/14 15:26:46 by kyungkim          #+#    #+#             */
+/*   Updated: 2025/01/14 15:34:55 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
 
-char *get_next_line(int fd)
+int	main(void)
 {
-	static char *buffer = "hi\nkay";
-	char	*line;
-	int		new_i;
+	char *test = get_next_line(1);
+	printf("test1 buffer:%s:", test);
+	test = get_next_line(1);
+	printf("test2 buffer:%s:", test);
 
-	(void) fd;
-	if (!buffer)
-	{
-		buffer = malloc(1);
-		if (!buffer)
-			return (0);
-		*buffer = '\0';
-	}
-	else
-	{
-		new_i = check_newline(buffer);
-		if (new_i != -1)
-		{
-			line = line_extract(buffer, new_i);
-			buffer = leftover(buffer, line, new_i);
-			if(!buffer)
-				return (0);
-			return (line);
-		}
-	}
-	return (0);
 }
-
-

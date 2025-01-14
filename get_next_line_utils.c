@@ -6,11 +6,23 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:55 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/10 00:43:25 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:34:01 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	memcopy(void *dest, void *src, int i)
+{
+	int c;
+
+	c = 0;
+	while (c < i)
+	{
+		((char *)dest)[c] = ((char *)src)[c];
+		c++;
+	}
+}
 
 int	check_newline(char *buffer)
 {
@@ -26,16 +38,19 @@ int	check_newline(char *buffer)
 	return (-1);
 }
 
-void	line_extract(char *buffer, char* line, int i)
+char	*line_extract(char *buffer, int i)
 {
+	char *line;
+
 	line = malloc(i + 2);
 	if (!line)
 	{
 		free(buffer);
-		return ;
+		return (0);
 	}
 	memcopy(line, buffer, i + 1);
-	line[check_newline(buffer) + 1] = '\0';
+	line[i + 1] = '\0';
+	return (line);
 }
 
 char	*leftover(char *buffer, char *line, int i)
@@ -53,21 +68,10 @@ char	*leftover(char *buffer, char *line, int i)
 		free(line);
 		return (0);
 	}
-	memcopy(left, buffer + i + 1, left_i - 1);
+	memcopy(left, buffer + i + 1, left_i);
 	left[left_i - 1] = '\0';
 	return (left);
 }
 
 
-void	memcopy(void *dest, void *src, int i)
-{
-	int c;
-
-	c = 0;
-	while (c < i)
-	{
-		((char *)dest)[c] = ((char *)src)[c];
-		c++;
-	}
-}
 
