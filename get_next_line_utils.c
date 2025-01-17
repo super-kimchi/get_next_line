@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:55 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/14 18:23:04 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/17 01:31:54 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	memcopy(void *dest, void *src, int i)
 		c++;
 	}
 }
+
 
 char *check_newline2(char *buffer)
 {

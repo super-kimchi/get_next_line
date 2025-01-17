@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:37 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/14 18:23:00 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/17 01:29:30 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,14 @@ char *get_next_line(int fd)
 {
 	static char *buffer = "hi\nkay";
 	char	*line;
-
+	
+	buffer = check_buffer(&buffer);
+	if (!buffer)
+		return (0);
 	if (check_newline2(
 //	int		new_i;
 
 //	(void) fd;
-	if (!buffer)
-	{
-		buffer = malloc(1);
-		if (!buffer)
-			return (0);
-		*buffer = '\0';
-	}
 	else
 	{
 		new_i = check_newline(buffer);
@@ -47,4 +43,15 @@ char *get_next_line(int fd)
 	return (0);
 }
 
+char *check_buffer(char *buffer)
+{
+	if (!buffer)
+	{
+		buffer = malloc(1);
+		if (!*buffer)
+			return (0);
+		*buffer = '\0';
+	}
+	return (buffer);
+}
 
