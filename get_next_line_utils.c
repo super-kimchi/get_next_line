@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:55 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/21 00:01:12 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/21 22:25:27 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ft_strjoin_free(char *src1, char *src2)
 		return (0);
 	}
 	gnl_memcpy(final_str, src1, i_1);
-	gnl_memcpy(final_str[i_1], src2, i_2);
+	gnl_memcpy(final_str + i_1, src2, i_2);
 	final_str[i_1 + i_2 + 1] = '\0';
 	free(src1);
 	free(src2);

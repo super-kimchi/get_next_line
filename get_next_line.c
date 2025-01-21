@@ -6,15 +6,15 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:37 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/20 23:33:40 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/21 22:25:53 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char *check_buffer(char *buffer)
+static char	*check_buffer(char *buffer)
 {
-	char *new_buffer;
+	char	*new_buffer;
 
 	if (!buffer)
 	{
@@ -30,7 +30,7 @@ static char *check_buffer(char *buffer)
 static int	check_newline(char *buffer)
 {
 	int	i;
-	
+
 	i = 0;
 	while (buffer[i])
 	{
@@ -40,8 +40,8 @@ static int	check_newline(char *buffer)
 	}
 	return (-1);
 }
-
-static char *extract_newline(char **buffer, int i)
+/*
+static char	*extract_newline(char **buffer, int i)
 {
 	char	*line;
 
@@ -53,10 +53,10 @@ static char *extract_newline(char **buffer, int i)
 		return (0);
 	return (line);
 }
-
-static char *eof_extract(char *buffer)
+*/
+static char	*eof_extract(char *buffer)
 {
-	char *line;
+	char	*line;
 
 	if (gnl_strlen(buffer) != 0)
 	{
@@ -69,17 +69,18 @@ static char *eof_extract(char *buffer)
 	return (0);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static char *buffer = "hi\nkay";
-	char	*temp;
-	ssize_t read_i;
-	
-	buffer = check_buffer(&buffer);
+	static char	*buffer;
+	char		*temp;
+	ssize_t		read_i;
+
+	buffer = check_buffer(buffer);
 	if (!buffer)
 		return (0);
 	if (check_newline(buffer) != -1)
-		return (extract_newline(&buffer),check_newline(buffer));
+		return (gnl_split(&buffer, check_newline(buffer)));
+//		return (extract_newline(&buffer), check_newline(buffer));
 	while (check_newline(buffer) == -1)
 	{
 		temp = malloc(BUFFER_SIZE + 1);
@@ -91,8 +92,14 @@ char *get_next_line(int fd)
 		}
 		else if (read_i == 0)
 			return (eof_extract(buffer));
-		else 
-			buffer = ft_strjoin(buffer, temp);
+		else
+		{
+			buffer = ft_strjoin_free(buffer, temp);
+			if (!buffer)
+				return (0);
+		}
+
 	}
-	return (extract_newline(&buffer));
+	return (gnl_split(&buffer, check_newline(buffer)));
+	//return (extract_newline(&buffer));
 }
