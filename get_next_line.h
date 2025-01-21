@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:47:07 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/14 17:03:20 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/20 23:35:13 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 # include <stddef.h>
 # define BUFFER_SIZE 42;
 
-char	*get_next_line(int fd); 
-int		check_newline(char *buffer);
-char	*leftover(char *buffer, char *line, int i);
+void	gnl_memcpy(void *dest, void *src, int i);
+int		gnl_strlen(char *str);
+char	*ft_strjoin_free(char *src1, char *src2);
 char	*line_extract(char *buffer, int i);
+char	*leftover(char *buffer, char *line, int i);
+char	*get_next_line(int fd); 
 
 #endif

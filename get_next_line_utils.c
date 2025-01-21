@@ -6,15 +6,15 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:55 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/17 01:31:54 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/21 00:01:12 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	memcopy(void *dest, void *src, int i)
+void	gnl_memcpy(void *dest, void *src, int i)
 {
-	int c;
+	int	c;
 
 	c = 0;
 	while (c < i)
@@ -24,50 +24,71 @@ void	memcopy(void *dest, void *src, int i)
 	}
 }
 
-
-char *check_newline2(char *buffer)
-{
-	int		i;
-	char	*line;
-
-	i = 0;
-	while (buffer[i])
-	{
-		if (buffer[i] == '\n')
-		{
-			line = malloc(i + 2);
-			if (!line)
-			{
-				free(buffer);
-				return (0);
-			}
-			memcopy(line, buffer, i + 1);
-			line[i + 1] = '\0';
-			return (line);
-		}
-		i++;
-	}
-	return (0);
-}
-
-
-int	check_newline(char *buffer)
+int	gnl_strlen(char *str)
 {
 	int	i;
-	
+
 	i = 0;
-	while (buffer[i])
-	{
-		if (buffer[i] == '\n')
-			return (i);
+	while (str[i])
 		i++;
+	return (i);
+}
+
+char	*ft_strjoin_free(char *src1, char *src2)
+{
+	char	*final_str;
+	int		i_1;
+	int		i_2;
+
+	i_1 = gnl_strlen(src1);
+	i_2 = gnl_strlen(src2);
+	final_str = malloc(i_1 + i_2 + 1);
+	if (!final_str)
+	{
+		free(src1);
+		free(src2);
+		return (0);
 	}
-	return (-1);
+	gnl_memcpy(final_str, src1, i_1);
+	gnl_memcpy(final_str[i_1], src2, i_2);
+	final_str[i_1 + i_2 + 1] = '\0';
+	free(src1);
+	free(src2);
+	return (final_str);
+}
+
+char	*gnl_split(char **buffer, int i)
+{
+	char	*line;
+	char	*left;
+	int		left_i;
+
+	line = malloc(i + 2);
+	if (!line)
+	{
+		free(*buffer);
+		return (0);
+	}
+	gnl_memcpy(line, *buffer, i + 1);
+	line[i + 1] = '\0';
+	left_i = gnl_strlen(*buffer + i + 1);
+	left = malloc(left_i);
+	if (!left)
+	{
+		free(*buffer);
+		free(line);
+		return (0);
+	}
+	gnl_memcpy(left, buffer + i + 1, left_i - 1);
+	left[left_i - 1] = '\0';
+	free(*buffer);
+	*buffer = left;
+	return (line);
 }
 
 char	*line_extract(char *buffer, int i)
 {
-	char *line;
+	char	*line;
 
 	line = malloc(i + 2);
 	if (!line)
@@ -75,7 +96,7 @@ char	*line_extract(char *buffer, int i)
 		free(buffer);
 		return (0);
 	}
-	memcopy(line, buffer, i + 1);
+	gnl_memcpy(line, buffer, i + 1);
 	line[i + 1] = '\0';
 	return (line);
 }
@@ -95,25 +116,8 @@ char	*leftover(char *buffer, char *line, int i)
 		free(line);
 		return (0);
 	}
-	memcopy(left, buffer + i + 1, left_i);
+	gnl_memcpy(left, buffer + i + 1, left_i - 1);
 	left[left_i - 1] = '\0';
+	free(buffer);
 	return (left);
 }
-
-char	*read_newline(char *buffer, int fd)
-{
-	char	*temp;
-	ssize_t	read_i;
-
-	temp = malloc(BUFFER_SIZE + 1);
-	if (!temp)
-	{
-		free(buffer);
-		return (0);
-	}
-	read_i = read(fd, buffer, BUFFER_SIZE);
-	if (read_i == 
-}
-
-
-
