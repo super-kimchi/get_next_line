@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:37 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/21 22:25:53 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/23 00:51:05 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,23 @@ static char	*extract_newline(char **buffer, int i)
 	return (line);
 }
 */
-static char	*eof_extract(char *buffer)
+static char	*eof_extract(char *buffer, char *temp)
 {
 	char	*line;
-
-	if (gnl_strlen(buffer) != 0)
+	int		rest_l;
+	
+	free(temp);
+	rest_l = gnl_strlen(buffer);
+	if (rest_l != 0)
 	{
-		line = line_extract(buffer, gnl_strlen(buffer) - 1);
+		line = malloc(rest_l + 1);
+		if (!line)
+		{
+			free(buffer);
+			return (0);
+		}
+		gnl_memcpy(line, buffer, rest_l);
+		line[rest_l] = '\0';
 		free(buffer);
 		return (line);
 	}
@@ -84,14 +94,16 @@ char	*get_next_line(int fd)
 	while (check_newline(buffer) == -1)
 	{
 		temp = malloc(BUFFER_SIZE + 1);
+		temp[BUFFER_SIZE] = '\0';
 		read_i = read(fd, temp, BUFFER_SIZE);
 		if (read_i == -1)
 		{
 			free(buffer);
+			free(temp);
 			return (0);
 		}
 		else if (read_i == 0)
-			return (eof_extract(buffer));
+			return (eof_extract(buffer, temp));
 		else
 		{
 			buffer = ft_strjoin_free(buffer, temp);

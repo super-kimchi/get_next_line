@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:26:46 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/21 22:32:56 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/22 23:50:56 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@ int	main(void)
 	int	file = open("test.txt", O_RDONLY);
 	printf("fd: %i\n", file);
 	char *test = get_next_line(file);
-	printf("test1 buffer:%s:", test);
+	printf("test1 buffer: %s", test);
 
 	test = get_next_line(file);
-	printf("test2 buffer:%s:", test);
+	printf("test2 buffer: %s", test);
 
+	test = get_next_line(file);
+	printf("test3 buffer: %s", test);
+
+	test = get_next_line(file);
+	printf("test4 buffer: %s", test);
+
+	test = get_next_line(file);
+	printf("test5 buffer: %s", test);
 }

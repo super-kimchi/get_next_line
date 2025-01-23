@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:47:07 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/21 22:23:13 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/22 23:57:15 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stddef.h>
+#ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
+#endif
 
 void	gnl_memcpy(void *dest, void *src, int i);
 int		gnl_strlen(char *str);

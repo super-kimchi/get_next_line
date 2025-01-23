@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:55 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/21 22:25:27 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/23 00:47:39 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_strjoin_free(char *src1, char *src2)
 	}
 	gnl_memcpy(final_str, src1, i_1);
 	gnl_memcpy(final_str + i_1, src2, i_2);
-	final_str[i_1 + i_2 + 1] = '\0';
+	final_str[i_1 + i_2] = '\0';
 	free(src1);
 	free(src2);
 	return (final_str);
@@ -72,15 +72,15 @@ char	*gnl_split(char **buffer, int i)
 	gnl_memcpy(line, *buffer, i + 1);
 	line[i + 1] = '\0';
 	left_i = gnl_strlen(*buffer + i + 1);
-	left = malloc(left_i);
+	left = malloc(left_i + 1);
 	if (!left)
 	{
 		free(*buffer);
 		free(line);
 		return (0);
 	}
-	gnl_memcpy(left, buffer + i + 1, left_i - 1);
-	left[left_i - 1] = '\0';
+	gnl_memcpy(left, *buffer + i + 1, left_i);
+	left[left_i] = '\0';
 	free(*buffer);
 	*buffer = left;
 	return (line);
