@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:37 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/23 00:51:05 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:18:58 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,28 +54,32 @@ static char	*extract_newline(char **buffer, int i)
 	return (line);
 }
 */
-static char	*eof_extract(char *buffer, char *temp)
+
+static char	*eof_extract(char **buffer, char *temp)
 {
 	char	*line;
 	int		rest_l;
-	
+
 	free(temp);
-	rest_l = gnl_strlen(buffer);
+	rest_l = gnl_strlen(*buffer);
 	if (rest_l != 0)
 	{
 		line = malloc(rest_l + 1);
 		if (!line)
 		{
-			free(buffer);
+			free(*buffer);
+			*buffer = 0;
 			return (0);
 		}
-		gnl_memcpy(line, buffer, rest_l);
+		gnl_memcpy(line, *buffer, rest_l);
 		line[rest_l] = '\0';
-		free(buffer);
+		free(*buffer);
+		*buffer = 0;
 		return (line);
 	}
 	else
-		free(buffer);
+		free(*buffer);
+	*buffer = 0;
 	return (0);
 }
 
@@ -90,7 +94,6 @@ char	*get_next_line(int fd)
 		return (0);
 	if (check_newline(buffer) != -1)
 		return (gnl_split(&buffer, check_newline(buffer)));
-//		return (extract_newline(&buffer), check_newline(buffer));
 	while (check_newline(buffer) == -1)
 	{
 		temp = malloc(BUFFER_SIZE + 1);
@@ -100,18 +103,17 @@ char	*get_next_line(int fd)
 		{
 			free(buffer);
 			free(temp);
+			buffer = 0;
 			return (0);
 		}
 		else if (read_i == 0)
-			return (eof_extract(buffer, temp));
+			return (eof_extract(&buffer, temp));
 		else
 		{
 			buffer = ft_strjoin_free(buffer, temp);
 			if (!buffer)
 				return (0);
 		}
-
 	}
 	return (gnl_split(&buffer, check_newline(buffer)));
-	//return (extract_newline(&buffer));
 }

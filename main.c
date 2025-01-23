@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:26:46 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/22 23:50:56 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:03:26 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,60 @@
 
 int	main(void)
 {
-	int	file = open("test.txt", O_RDONLY);
-	printf("fd: %i\n", file);
+	int	file;
+	file = 1000;
 	char *test = get_next_line(file);
-	printf("test1 buffer: %s", test);
+	printf("fd: %i\n", file);
+	printf("test buffer: %s\n", test);
+	file = -1;
+	test = get_next_line(file);
+	printf("fd: %i\n", file);
+	printf("test buffer: %s\n", test);
 
+	file = open("empty", O_RDONLY);
+
+	printf("empty test\n");
+	test = get_next_line(file);
+	printf("fd: %i\n", file);
+	printf("test buffer: %s\n", test);
+	test = get_next_line(file);
+	printf("fd: %i\n", file);
+	printf("test buffer: %s\n", test);
+	close(file);
+
+	file = open("41_no_nl", O_RDONLY);
+	printf("41_no_nl test\n");
+	test = get_next_line(file);
+	printf("fd: %i\n", file);
+	printf("test buffer: %s\n", test);
+	test = get_next_line(file);
+	printf("fd: %i\n", file);
+	printf("test buffer: %s\n", test);
+
+	/*
+	 *
+	while (test)
+	{
+		printf("test buffer: %s", test);
+		free(test);
+		test = get_next_line(file);
+	}
+	printf("test buffer: %s", test);
+	*/
+	/*
+	free(test);
 	test = get_next_line(file);
 	printf("test2 buffer: %s", test);
 
+	free(test);
 	test = get_next_line(file);
 	printf("test3 buffer: %s", test);
 
+	free(test);
 	test = get_next_line(file);
 	printf("test4 buffer: %s", test);
-
-	test = get_next_line(file);
-	printf("test5 buffer: %s", test);
+	free(test);
+	*/
+	 //test = get_next_line(file);
+	//printf("test5 buffer: %s", test);
 }

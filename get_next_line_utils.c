@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:55 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/23 00:47:39 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:11:17 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*gnl_split(char **buffer, int i)
 	*buffer = left;
 	return (line);
 }
-
+/*
 char	*line_extract(char *buffer, int i)
 {
 	char	*line;
@@ -121,3 +121,4 @@ char	*leftover(char *buffer, char *line, int i)
 	free(buffer);
 	return (left);
 }
+*/
