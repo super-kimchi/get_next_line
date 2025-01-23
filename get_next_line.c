@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:37 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/23 17:18:58 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/24 00:40:58 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ char	*get_next_line(int fd)
 	while (check_newline(buffer) == -1)
 	{
 		temp = malloc(BUFFER_SIZE + 1);
-		temp[BUFFER_SIZE] = '\0';
 		read_i = read(fd, temp, BUFFER_SIZE);
 		if (read_i == -1)
 		{
@@ -110,6 +109,7 @@ char	*get_next_line(int fd)
 			return (eof_extract(&buffer, temp));
 		else
 		{
+			temp[read_i] = '\0';
 			buffer = ft_strjoin_free(buffer, temp);
 			if (!buffer)
 				return (0);
