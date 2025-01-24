@@ -35,7 +35,7 @@ flowchart TD
     W --> X["Check for newline again in stash"]
     X -- Found newline --> G
     X -- No newline --> N["Repeat read() until newline or EOF/error"]
-    ```
+```
 
 ## limitation
 ## “What if the file is huge or has a monstrously long line?”
