@@ -1,5 +1,42 @@
 GNL is basically immitation of [[lseek()]] function in c
 
+``` mermaid
+flowchart TD
+    A("GNL(fd)") --> B["Check if stash (static buffer) is NULL"]
+    B --> C{"Is stash NULL?"}
+
+    C -- Yes --> D["Initialize stash to empty string (malloc(1), stash[0] = '\0')"]
+    C -- No --> E["(Already have leftover in stash)"]
+
+    E --> F["Check if stash contains newline"]
+    D --> F
+
+    F -- Newline found --> G["Extract line up to newline"]
+    G --> H["Allocate 'line' buffer for the extracted text"]
+    H --> I["Allocate leftover buffer for everything after newline"]
+    I --> J["Copy leftover into new buffer"]
+    J --> K["Free old stash"]
+    K --> L["stash = leftover pointer"]
+    L --> M["Return 'line' (one full line)"]
+
+    F -- No newline --> N["Call read(fd, temp, BUFFER_SIZE)"]
+
+    N -- read == -1 --> O["Free stash if needed"]
+    O --> P["Return NULL (error)"]
+
+    N -- read == 0 --> Q["EOF reached → if stash not empty, return it as last line. Else return NULL"]
+
+    N -- read > 0 --> R["We got 'bytes' > 0 in temp"]
+    R --> S["Allocate new buffer of size: old_stash_len + bytes + 1"]
+    S --> T["Copy old stash into new buffer"]
+    T --> U["Copy 'temp' (the newly read bytes) after old stash"]
+    U --> V["Free old stash"]
+    V --> W["stash = new buffer"]
+    W --> X["Check for newline again in stash"]
+    X -- Found newline --> G
+    X -- No newline --> N["Repeat read() until newline or EOF/error"]
+    ```
+
 ## limitation
 ## “What if the file is huge or has a monstrously long line?”
 
