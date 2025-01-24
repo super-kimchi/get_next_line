@@ -26,7 +26,7 @@ int	main(void)
 	printf("fd: %i\n", file);
 	printf("test buffer: %s\n", test);
 
-	file = open("empty", O_RDONLY);
+	file = open("testfiles/empty", O_RDONLY);
 
 	printf("empty test\n");
 	test = get_next_line(file);
@@ -37,7 +37,7 @@ int	main(void)
 	printf("test buffer: %s\n", test);
 	close(file);
 
-	file = open("41_no_nl", O_RDONLY);
+	file = open("testfiles/41_no_nl", O_RDONLY);
 	printf("41_no_nl test\n");
 	test = get_next_line(file);
 	printf("fd: %i\n", file);
@@ -47,7 +47,7 @@ int	main(void)
 	printf("test buffer: %s\n", test);
 	close(file);
 
-	file = open("1char.txt", O_RDONLY);
+	file = open("testfiles/1char.txt", O_RDONLY);
 	printf("1char test\n");
 	test = get_next_line(file);
 	printf("fd: %i\n", file);
