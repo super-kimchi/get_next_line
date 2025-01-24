@@ -6,7 +6,7 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:46:37 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/24 00:40:58 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/24 02:17:54 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,82 @@ static int	check_newline(char *buffer)
 	}
 	return (-1);
 }
-/*
-static char	*extract_newline(char **buffer, int i)
+
+static char	*eof_extract(char **buffer)
 {
 	char	*line;
+	int		rest_l;
 
-	line = line_extract(*buffer, i);
-	if (!line)
-		return (0);
-	*buffer = leftover(*buffer, line, i);
-	if (!*buffer)
-		return (0);
-	return (line);
+	rest_l = gnl_strlen(*buffer);
+	if (rest_l != 0)
+	{
+		line = malloc(rest_l + 1);
+		if (!line)
+		{
+			free(*buffer);
+			*buffer = 0;
+			return (0);
+		}
+		gnl_memcpy(line, *buffer, rest_l);
+		line[rest_l] = '\0';
+		free(*buffer);
+		*buffer = 0;
+		return (line);
+	}
+	else
+		free(*buffer);
+	*buffer = 0;
+	return (0);
 }
-*/
 
+static int	ft_read(char **buffer, int fd)
+{
+	char	*temp;
+	ssize_t	read_i;
+
+	temp = malloc(BUFFER_SIZE + 1);
+	read_i = read(fd, temp, BUFFER_SIZE);
+	if (read_i == -1)
+	{
+		free(*buffer);
+		free(temp);
+		*buffer = 0;
+		return (-1);
+	}
+	else if (read_i == 0)
+	{
+		free(temp);
+		return (0);
+	}
+	temp[read_i] = '\0';
+	*buffer = ft_strjoin_free(*buffer, temp);
+	if (!*buffer)
+		return (-1);
+	return (1);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*buffer;
+	int			read_check;
+
+	buffer = check_buffer(buffer);
+	if (!buffer)
+		return (0);
+	if (check_newline(buffer) != -1)
+		return (gnl_split(&buffer, check_newline(buffer)));
+	while (check_newline(buffer) == -1)
+	{
+		read_check = ft_read(&buffer, fd);
+		if (read_check == -1)
+			return (0);
+		else if (read_check == 0)
+			return (eof_extract(&buffer));
+	}
+	return (gnl_split(&buffer, check_newline(buffer)));
+}
+
+/*
 static char	*eof_extract(char **buffer, char *temp)
 {
 	char	*line;
@@ -82,38 +143,4 @@ static char	*eof_extract(char **buffer, char *temp)
 	*buffer = 0;
 	return (0);
 }
-
-char	*get_next_line(int fd)
-{
-	static char	*buffer;
-	char		*temp;
-	ssize_t		read_i;
-
-	buffer = check_buffer(buffer);
-	if (!buffer)
-		return (0);
-	if (check_newline(buffer) != -1)
-		return (gnl_split(&buffer, check_newline(buffer)));
-	while (check_newline(buffer) == -1)
-	{
-		temp = malloc(BUFFER_SIZE + 1);
-		read_i = read(fd, temp, BUFFER_SIZE);
-		if (read_i == -1)
-		{
-			free(buffer);
-			free(temp);
-			buffer = 0;
-			return (0);
-		}
-		else if (read_i == 0)
-			return (eof_extract(&buffer, temp));
-		else
-		{
-			temp[read_i] = '\0';
-			buffer = ft_strjoin_free(buffer, temp);
-			if (!buffer)
-				return (0);
-		}
-	}
-	return (gnl_split(&buffer, check_newline(buffer)));
-}
+*/
