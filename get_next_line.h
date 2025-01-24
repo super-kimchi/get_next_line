@@ -6,19 +6,19 @@
 /*   By: kyungkim <kyungkim@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 22:47:07 by kyungkim          #+#    #+#             */
-/*   Updated: 2025/01/23 16:13:05 by kyungkim         ###   ########.fr       */
+/*   Updated: 2025/01/24 01:12:05 by kyungkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stddef.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+
+# include <stdlib.h>
+# include <unistd.h>
 
 void	gnl_memcpy(void *dest, void *src, int i);
 int		gnl_strlen(char *str);
